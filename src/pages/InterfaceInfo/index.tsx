@@ -1,9 +1,8 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, {useEffect, useState} from 'react';
-import {Card, Descriptions, List, message} from "antd";
+import {Button, Card, Descriptions, Form, Input, message} from "antd";
 import {
   getInterfaceInfoByIdUsingGet,
-  listInterfaceInfoByPageUsingGet
 } from "@/services/z-api-backend/interfaceInfoController";
 import {useParams} from "react-router";
 
@@ -39,6 +38,10 @@ const Index: React.FC = () => {
     loadData();
   }, []);
 
+  const onFinish = () => {
+
+  };
+
   return (
     <PageContainer title="查看接口文档">
       <Card>
@@ -48,6 +51,7 @@ const Index: React.FC = () => {
             <Descriptions.Item label="描述">{data.description}</Descriptions.Item>
             <Descriptions.Item label="请求地址">{data.url}</Descriptions.Item>
             <Descriptions.Item label="请求方法">{data.method}</Descriptions.Item>
+            <Descriptions.Item label="请求参数">{data.requestParams}</Descriptions.Item>
             <Descriptions.Item label="请求头">{data.requestHeader}</Descriptions.Item>
             <Descriptions.Item label="响应头">{data.responseHeader}</Descriptions.Item>
             <Descriptions.Item label="创建时间">{data.createTime}</Descriptions.Item>
@@ -56,6 +60,26 @@ const Index: React.FC = () => {
         ) : (
           <>接口不存在</>
         )}
+      </Card>
+      <Card>
+        <Form
+          name="invoke"
+          layout="vertical"
+          onFinish={onFinish}
+        >
+          <Form.Item
+            label="请求参数"
+            name="requestParams"
+            rules={[{ required: true, message: '请输入请求参数' }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              调用
+            </Button>
+          </Form.Item>
+        </Form>
       </Card>
     </PageContainer>
   );

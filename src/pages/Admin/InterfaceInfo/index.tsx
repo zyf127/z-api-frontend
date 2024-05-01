@@ -201,9 +201,19 @@ const InterfaceInfo: React.FC = () => {
       }
     },
     {
+      title: '请求参数',
+      dataIndex: 'requestParams',
+      valueType: 'jsonCode',
+      formItemProps: {
+        rules: [{
+          required: true,
+        }]
+      }
+    },
+    {
       title: '请求头',
       dataIndex: 'requestHeader',
-      valueType: 'textarea',
+      valueType: 'jsonCode',
       formItemProps: {
         rules: [{
           required: true,
@@ -213,7 +223,7 @@ const InterfaceInfo: React.FC = () => {
     {
       title: '响应头',
       dataIndex: 'responseHeader',
-      valueType: 'textarea',
+      valueType: 'jsonCode',
       formItemProps: {
         rules: [{
           required: true,
