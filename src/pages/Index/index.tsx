@@ -26,7 +26,7 @@ const Index: React.FC = () => {
       setList(res?.data?.records ?? []);
       setTotal(res?.data?.total ?? 0);
     } catch (error: any) {
-      message.error('加载数据失败', error.message);
+      message.error('加载数据失败，' + error.message);
     }
     setLoading(false);
   }

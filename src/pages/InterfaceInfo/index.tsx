@@ -1,8 +1,9 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Descriptions, Form, Input, message} from "antd";
+import {Button, Card, Descriptions, Divider, Form, Input, message} from "antd";
 import {
-  getInterfaceInfoByIdUsingGet,
+  deleteInterfaceInfoUsingPost,
+  getInterfaceInfoByIdUsingGet, invokeInterfaceInfoUsingPost,
 } from "@/services/z-api-backend/interfaceInfoController";
 import {useParams} from "react-router";
 
@@ -16,6 +17,8 @@ const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<API.InterfaceInfo>();
   const params = useParams();
+  const [invokeRes, setInvokeRes] = useState<any>();
+  const [invokeLoading, setInvokeLoading] = useState(false);
 
   const loadData = async () => {
     if (!params) {
@@ -29,7 +32,7 @@ const Index: React.FC = () => {
       });
       setData(res.data);
     } catch (error: any) {
-      message.error('查看接口文档失败', error.message);
+      message.error('查看接口文档失败，' + error.message);
     }
     setLoading(false);
   }
@@ -38,8 +41,23 @@ const Index: React.FC = () => {
     loadData();
   }, []);
 
-  const onFinish = () => {
-
+  const onFinish = async (values: any) => {
+    if (!params.id) {
+      message.error('接口不存在');
+      return;
+    }
+    setInvokeLoading(true);
+    try {
+      const res = await invokeInterfaceInfoUsingPost({
+        id: params.id,
+        ...values
+      });
+      setInvokeRes(res.data);
+      message.success('调用成功');
+    } catch (error: any) {
+      message.error('调用失败，' + error.message);
+    }
+    setInvokeLoading(false);
   };
 
   return (
@@ -61,7 +79,8 @@ const Index: React.FC = () => {
           <>接口不存在</>
         )}
       </Card>
-      <Card>
+      <Divider />
+      <Card title="在线测试">
         <Form
           name="invoke"
           layout="vertical"
@@ -69,17 +88,21 @@ const Index: React.FC = () => {
         >
           <Form.Item
             label="请求参数"
-            name="requestParams"
+            name="userRequestParams"
             rules={[{ required: true, message: '请输入请求参数' }]}
           >
             <Input.TextArea />
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Form.Item wrapperCol={{ span: 16 }}>
             <Button type="primary" htmlType="submit">
               调用
             </Button>
           </Form.Item>
         </Form>
+      </Card>
+      <Divider />
+      <Card title="返回结果" loading={invokeLoading}>
+        {invokeRes}
       </Card>
     </PageContainer>
   );

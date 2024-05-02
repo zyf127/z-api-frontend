@@ -29,6 +29,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseobject = {
+    code?: number;
+    data?: Record<string, any>;
+    message?: string;
+  };
+
   type BaseResponsePageInterfaceInfo = {
     code?: number;
     data?: PageInterfaceInfo;
@@ -95,6 +101,11 @@ declare namespace API {
     requestParams?: string;
     responseHeader?: string;
     url?: string;
+  };
+
+  type InterfaceInfoInvokeRequest = {
+    id?: number;
+    userRequestParams?: string;
   };
 
   type InterfaceInfoUpdateRequest = {
