@@ -2,7 +2,6 @@ import { PageContainer } from '@ant-design/pro-components';
 import React, {useEffect, useState} from 'react';
 import {Button, Card, Descriptions, Divider, Form, Input, message} from "antd";
 import {
-  deleteInterfaceInfoUsingPost,
   getInterfaceInfoByIdUsingGet, invokeInterfaceInfoUsingPost,
 } from "@/services/z-api-backend/interfaceInfoController";
 import {useParams} from "react-router";
@@ -53,7 +52,6 @@ const Index: React.FC = () => {
         ...values
       });
       setInvokeRes(res.data);
-      message.success('调用成功');
     } catch (error: any) {
       message.error('调用失败，' + error.message);
     }
