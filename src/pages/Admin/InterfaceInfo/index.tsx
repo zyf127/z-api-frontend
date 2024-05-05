@@ -362,7 +362,7 @@ const InterfaceInfo: React.FC = () => {
               </a>{' '}
               项 &nbsp;&nbsp;
               <span>
-                服务调用次数总计 {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)} 万
+                服务调用次数总计 {selectedRowsState.reduce((pre, item) => pre!, 0)} 万
               </span>
             </div>
           }
